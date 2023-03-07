@@ -14,7 +14,6 @@ export class DbLoadAccountByToken implements LoadAccountByToken {
         } catch (error) {
             return null
         }
-        if (!data.role) delete data.role
         const account = await this.loadAccountByTokenRepository.load(data)
         return account
     }
