@@ -9,12 +9,12 @@ export class SendCommandController implements Controller {
         private readonly mqttBroker: MqttBroker
     ) { }
 
-    async handle(data: SendCommandController.Request): Promise<any> {
+    async handle(message: SendCommandController.Request, mqttClient): Promise<any> {
         try {
-            const error = this.validation.validate(data)
+            const error = this.validation.validate(message)
             if (error) return badRequest(error)
 
-            await this.mqttBroker.handle(data)
+            await this.mqttBroker.handle(message, mqttClient)
             return noContent()
         } catch (error) {
             return serverError(error)

@@ -1,1 +1,1 @@
-export * from './save.sensor.measure.controller'
+export * from './send.command.controller'

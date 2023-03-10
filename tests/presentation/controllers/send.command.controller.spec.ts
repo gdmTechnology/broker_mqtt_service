@@ -5,6 +5,8 @@ const throwError = (): never => {
     throw new Error()
 }
 
+const mqttClient = 'mqttClient'
+
 const mockRequest = (): SendCommandController.Request => ({
     deviceIdentification: 'deviceIdentification',
     actuatorIdentification: 'actuatorIdentification',
@@ -32,7 +34,7 @@ describe('SendCommandController', () => {
     test('Should call validation with correct values', async () => {
         const { sut, validationSpy } = makeSut()
         const request = mockRequest()
-        await sut.handle(request)
+        await sut.handle(request, mqttClient)
         expect(validationSpy.input).toEqual(request)
     })
 
@@ -40,7 +42,7 @@ describe('SendCommandController', () => {
         const { sut, validationSpy } = makeSut()
         validationSpy.error = new Error()
         const request = mockRequest()
-        const httpResponse = await sut.handle(request)
+        const httpResponse = await sut.handle(request, mqttClient)
         expect(httpResponse.statusCode).toBe(400)
     })
 
@@ -48,22 +50,22 @@ describe('SendCommandController', () => {
         const { sut, validationSpy } = makeSut()
         jest.spyOn(validationSpy, 'validate').mockImplementationOnce(throwError)
         const request = mockRequest()
-        const httpResponse = await sut.handle(request)
+        const httpResponse = await sut.handle(request, mqttClient)
         expect(httpResponse.statusCode).toBe(500)
     })
 
     test('Should call MqttBroker with correct values', async () => {
         const { sut, mqttBrokerSpy } = makeSut()
         const request = mockRequest()
-        await sut.handle(request)
+        await sut.handle(request, mqttClient)
         expect(mqttBrokerSpy.params).toEqual(request)
     })
 
-    test('Should return 500 if SaveSensorMeasure throws', async () => {
+    test('Should return 500 if MqttBroker throws', async () => {
         const { sut, mqttBrokerSpy } = makeSut()
         jest.spyOn(mqttBrokerSpy, 'handle').mockImplementationOnce(throwError)
         const request = mockRequest()
-        const httpResponse = await sut.handle(request)
+        const httpResponse = await sut.handle(request, mqttClient)
         expect(httpResponse.statusCode).toBe(500)
     })
 })
