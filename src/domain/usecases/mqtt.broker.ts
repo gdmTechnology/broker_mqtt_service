@@ -1,5 +1,5 @@
 export interface MqttBroker {
-    handle: (data: MqttBroker.Params) => Promise<void>
+    handle: (data: MqttBroker.Params, mqttClient) => Promise<boolean>
 }
 
 export namespace MqttBroker {

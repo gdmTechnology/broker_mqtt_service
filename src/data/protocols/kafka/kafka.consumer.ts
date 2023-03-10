@@ -1,3 +1,3 @@
 export interface Consumer {
-    consumer: () => Promise<void>
+    consumer: (mqttClient) => Promise<void>
 }

@@ -1,12 +1,16 @@
 import { MqttBroker } from '@/domain/usecases'
-import { Publisher } from '@/data/protocols'
 
 export class DbMqttBroker implements MqttBroker {
-    constructor(
-        private readonly mqtt: Publisher
-    ) { }
-
-    async handle(data: MqttBroker.Params): Promise<void> {
-        await this.mqtt.publish(data)
+    async handle(data: MqttBroker.Params, mqttClient): Promise<boolean> {
+        try {
+            if (mqttClient) {
+                await mqttClient.publish(`command/${data.deviceIdentification}`, data)
+                return true
+            }
+            return false
+        } catch (error) {
+            console.log('MQTT Error: ', error)
+            return false
+        }
     }
 }
