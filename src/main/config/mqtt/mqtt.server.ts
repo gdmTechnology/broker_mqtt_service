@@ -13,10 +13,18 @@ export const MqttSetup = {
 
             client.on('connect', async function () {
                 console.log(`Is connected ? ${client.connected}`)
+                client.subscribe('measure')
+                client.subscribe('actuator')
+                client.subscribe('keepalive')
             })
 
             client.on('error', (error) => {
                 console.log(`Unable to connect: ${error}`)
+            })
+
+            client.on('message', function (topic: string, message) {
+                console.log('Topic:: ', topic)
+                console.log('Message:: ', message)
             })
 
             return client
