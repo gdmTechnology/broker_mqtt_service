@@ -1,2 +1,2 @@
-export * from './save.sensor.measure.controller.factory'
-export * from './save.sensor.measure.validation.factory'
+export * from './send.command.controller.factory'
+export * from './send.command.validation.factory'
