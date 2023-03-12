@@ -2,7 +2,7 @@ import env from '@/main/config/env'
 import { Consumer } from '@/data/protocols'
 import { Kafka } from 'kafkajs'
 import { Topics } from '@/main/config/kafka'
-import { makeSaveSensorMeasuresController } from '@/main/factories'
+import { makeSendCommandController } from '@/main/factories'
 
 export let consumer = null
 
@@ -11,7 +11,7 @@ export class KafkaConsumer implements Consumer {
         private readonly kafkaServer: Kafka
     ) { }
 
-    async consumer(): Promise<void> {
+    async consumer(mqttClient): Promise<void> {
         if (consumer) return consumer
         consumer = this.kafkaServer.consumer({ groupId: env.kafkaGroupId })
         await consumer.connect()
@@ -20,7 +20,7 @@ export class KafkaConsumer implements Consumer {
             eachMessage: async ({ topic, partition, message }) => {
                 try {
                     const data = JSON.parse(message.value.toString())
-                    await makeSaveSensorMeasuresController().handle(data)
+                    await makeSendCommandController().handle(data, mqttClient)
                 } catch (error) {
                     console.error('Err:: ', error)
                 }
