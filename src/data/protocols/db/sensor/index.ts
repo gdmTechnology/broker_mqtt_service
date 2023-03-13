@@ -1,2 +1,2 @@
-export * from './load.sensor.repository'
-export * from './save.sensor.measure.repository'
+export * from './save.sensor'
+export * from './check.sensor.repository'
