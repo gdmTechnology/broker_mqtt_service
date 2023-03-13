@@ -1,8 +1,8 @@
-export interface ReceiveMessage {
-    handle: (data: ReceiveMessage.Params) => Promise<boolean>
+export interface CheckDevice {
+    handle: (data: CheckDevice.Params) => Promise<boolean>
 }
 
-export namespace ReceiveMessage {
+export namespace CheckDevice {
     export type Params = {
         deviceIdentification: string
         actuatorIdentification?: string

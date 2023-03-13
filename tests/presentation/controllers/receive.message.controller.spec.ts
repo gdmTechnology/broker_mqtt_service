@@ -1,5 +1,5 @@
 import { ReceiveMessageController } from '@/presentation/controllers'
-import { ValidationSpy, ReceiveMessageSpy } from '../mocks'
+import { ValidationSpy, CheckDeviceSpy } from '../mocks'
 
 const throwError = (): never => {
     throw new Error()
@@ -14,17 +14,17 @@ const mockRequest = (): ReceiveMessageController.Request => ({
 
 type SutTypes = {
     validationSpy: ValidationSpy
-    receiveMessageSpy: ReceiveMessageSpy
+    checkDeviceSpy: CheckDeviceSpy
     sut: ReceiveMessageController
 }
 
 const makeSut = (): SutTypes => {
     const validationSpy = new ValidationSpy()
-    const receiveMessageSpy = new ReceiveMessageSpy()
-    const sut = new ReceiveMessageController(validationSpy, receiveMessageSpy)
+    const checkDeviceSpy = new CheckDeviceSpy()
+    const sut = new ReceiveMessageController(validationSpy, checkDeviceSpy)
     return {
         validationSpy,
-        receiveMessageSpy,
+        checkDeviceSpy,
         sut
     }
 }
@@ -54,15 +54,15 @@ describe('ReceiveMessageController', () => {
     })
 
     test('Should call ReceiveMessage with correct values', async () => {
-        const { sut, receiveMessageSpy } = makeSut()
+        const { sut, checkDeviceSpy } = makeSut()
         const request = mockRequest()
         await sut.handle(request)
-        expect(receiveMessageSpy.params).toEqual(request)
+        expect(checkDeviceSpy.params).toEqual(request)
     })
 
     test('Should return 500 if ReceiveMessage throws', async () => {
-        const { sut, receiveMessageSpy } = makeSut()
-        jest.spyOn(receiveMessageSpy, 'handle').mockImplementationOnce(throwError)
+        const { sut, checkDeviceSpy } = makeSut()
+        jest.spyOn(checkDeviceSpy, 'handle').mockImplementationOnce(throwError)
         const request = mockRequest()
         const httpResponse = await sut.handle(request)
         expect(httpResponse.statusCode).toBe(500)

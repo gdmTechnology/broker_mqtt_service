@@ -1,8 +1,8 @@
-import { ReceiveMessage } from '@/domain/usecases'
-export class ReceiveMessageSpy implements ReceiveMessage {
+import { CheckDevice } from '@/domain/usecases'
+export class CheckDeviceSpy implements CheckDevice {
     params = null
 
-    async handle(data: ReceiveMessage.Params): Promise<boolean> {
+    async handle(data: CheckDevice.Params): Promise<boolean> {
         this.params = data
         return true
     }

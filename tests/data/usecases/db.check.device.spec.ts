@@ -1,11 +1,11 @@
-import { DbReceiveMessage } from '@/data/usecases'
-import { ReceiveMessage } from '@/domain/usecases'
+import { DbCheckDevice } from '@/data/usecases'
+import { CheckDevice } from '@/domain/usecases'
 import { CheckActuatorRepositorySpy, CheckSensorRepositorySpy } from '../mocks'
 
 type SutTypes = {
     checkSensorRepositorySpy: CheckSensorRepositorySpy
     checkActuatorRepositorySpy: CheckActuatorRepositorySpy
-    sut: ReceiveMessage
+    sut: CheckDevice
 }
 
 const throwError = (): never => {
@@ -15,25 +15,25 @@ const throwError = (): never => {
 const makeSut = (): SutTypes => {
     const checkSensorRepositorySpy = new CheckSensorRepositorySpy()
     const checkActuatorRepositorySpy = new CheckActuatorRepositorySpy()
-    const sut = new DbReceiveMessage(checkSensorRepositorySpy, checkActuatorRepositorySpy)
+    const sut = new DbCheckDevice(checkSensorRepositorySpy, checkActuatorRepositorySpy)
     return { sut, checkSensorRepositorySpy, checkActuatorRepositorySpy }
 }
 
-const mockRequestSensorData = (): ReceiveMessage.Params => ({
+const mockRequestSensorData = (): CheckDevice.Params => ({
     deviceIdentification: 'deviceIdentification',
     sensorIdentification: 'sensorIdentification',
     currentValue: 1,
     timestamp: 'timestamp'
 })
 
-const mockRequestActuatorData = (): ReceiveMessage.Params => ({
+const mockRequestActuatorData = (): CheckDevice.Params => ({
     deviceIdentification: 'deviceIdentification',
     actuatorIdentification: 'actuatorIdentification',
     currentValue: 1,
     timestamp: 'timestamp'
 })
 
-describe('DbReceiveMessage', () => {
+describe('DbCheckDevice', () => {
     test('Should call checkSensorRepository with correct values if sensorIdentification', async () => {
         const { sut, checkSensorRepositorySpy } = makeSut()
         const request = mockRequestSensorData()
