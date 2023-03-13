@@ -1,24 +1,21 @@
 import { SensorMongoRepository } from '@/infra/db/mongodb'
 import { MongoTestDbHelper } from './db.handler'
-import { LoadSensorRepository } from '@/data/protocols'
+import { CheckSensorRepository } from '@/data/protocols'
 
 const makeSut = (): SensorMongoRepository => {
     return new SensorMongoRepository()
 }
 
-const loadSensorParams = (): string => 'sensorIdentification'
-
-describe('LoadSensorRepository', () => {
+describe('CheckSensorRepository', () => {
     beforeAll(async () => await MongoTestDbHelper.connect())
     afterEach(async () => await MongoTestDbHelper.clearDatabase())
     afterAll(async () => await MongoTestDbHelper.disconnect())
 
-    describe('load()', () => {
-        test('Should return null if sensorIdentification doesnt exists ', async () => {
+    describe('check()', () => {
+        test('Should return false if sensorIdentification doesnt exists ', async () => {
             const sut = makeSut()
-            const request = loadSensorParams()
-            const sensorMeasure = await sut.load(request)
-            expect(sensorMeasure).toBeNull()
+            const sensorMeasure = await sut.check('sensorIdentification', 'deviceIdentification')
+            expect(sensorMeasure).toBeFalsy()
         })
     })
 })
