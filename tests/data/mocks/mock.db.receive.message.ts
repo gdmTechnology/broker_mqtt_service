@@ -1,4 +1,4 @@
-import { CheckSensorRepository, CheckActuatorRepository } from '@/data/protocols/db'
+import { CheckSensorRepository, CheckActuatorRepository, KafkaSendData } from '@/data/protocols'
 
 export class CheckSensorRepositorySpy implements CheckSensorRepository {
     params: any
@@ -16,6 +16,16 @@ export class CheckActuatorRepositorySpy implements CheckActuatorRepository {
 
     async check(actuatorIdentification: string, deviceIdentification: string): Promise<CheckActuatorRepository.Result> {
         this.params = { actuatorIdentification, deviceIdentification }
+        return this.result
+    }
+}
+
+export class KafkaSendDataSpy implements KafkaSendData {
+    params: any
+    result: any = true
+
+    async send(data: KafkaSendData.Request): Promise<boolean> {
+        this.params = data
         return this.result
     }
 }
