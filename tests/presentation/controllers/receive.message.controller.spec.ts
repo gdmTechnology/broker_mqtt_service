@@ -1,11 +1,11 @@
-import { ReceiveMessageController } from '@/presentation/controllers'
+import { ReceiveDataFromDeviceController } from '@/presentation/controllers'
 import { ValidationSpy, CheckDeviceSpy, PublishDataSpy } from '../mocks'
 
 const throwError = (): never => {
     throw new Error()
 }
 
-const mockRequest = (): ReceiveMessageController.Request => ({
+const mockRequest = (): ReceiveDataFromDeviceController.Request => ({
     deviceIdentification: 'deviceIdentification',
     actuatorIdentification: 'actuatorIdentification',
     currentValue: 1,
@@ -16,14 +16,14 @@ type SutTypes = {
     validationSpy: ValidationSpy
     checkDeviceSpy: CheckDeviceSpy
     publishDataSpy: PublishDataSpy
-    sut: ReceiveMessageController
+    sut: ReceiveDataFromDeviceController
 }
 
 const makeSut = (): SutTypes => {
     const validationSpy = new ValidationSpy()
     const checkDeviceSpy = new CheckDeviceSpy()
     const publishDataSpy = new PublishDataSpy()
-    const sut = new ReceiveMessageController(validationSpy, checkDeviceSpy, publishDataSpy)
+    const sut = new ReceiveDataFromDeviceController(validationSpy, checkDeviceSpy, publishDataSpy)
     return {
         validationSpy,
         checkDeviceSpy,
@@ -32,7 +32,7 @@ const makeSut = (): SutTypes => {
     }
 }
 
-describe('ReceiveMessageController', () => {
+describe('ReceiveDataFromDeviceController', () => {
     test('Should call validation with correct values', async () => {
         const { sut, validationSpy } = makeSut()
         const request = mockRequest()

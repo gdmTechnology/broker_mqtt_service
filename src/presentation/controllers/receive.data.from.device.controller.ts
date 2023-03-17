@@ -4,14 +4,14 @@ import { badRequest, serverError, noContent } from '../helpers/http.helper'
 import { CheckDevice, PublishData } from '@/domain/usecases'
 import { DeviceNotFoundError } from '../errors'
 
-export class ReceiveMessageController implements Controller {
+export class ReceiveDataFromDeviceController implements Controller {
     constructor(
         private readonly validation: Validation,
         private readonly checkDevice: CheckDevice,
         private readonly publishData: PublishData
     ) { }
 
-    async handle(message: ReceiveMessageController.Request): Promise<any> {
+    async handle(message: ReceiveDataFromDeviceController.Request): Promise<any> {
         try {
             const error = this.validation.validate(message)
             if (error) return badRequest(error)
@@ -26,7 +26,7 @@ export class ReceiveMessageController implements Controller {
     }
 }
 
-export namespace ReceiveMessageController {
+export namespace ReceiveDataFromDeviceController {
     export interface Request {
         deviceIdentification: string
         actuatorIdentification?: string
