@@ -1,2 +1,2 @@
-export * from './send.command.controller'
-export * from './receive.message.controller'
+export * from './send.command.to.device.controller'
+export * from './receive.data.from.device.controller'
