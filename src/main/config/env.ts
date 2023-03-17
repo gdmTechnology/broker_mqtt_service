@@ -11,5 +11,7 @@ export default {
   kafkaClientId: process.env.KAFKA_CLIENTID || 'rem-kafka',
   kafkaBrokerPort: process.env.KAFKA_BROKER_PORT || 9092,
   kafkaBrokerHost: process.env.KAFKA_BROKER_HOST || 'broker',
-  kafkaGroupId: process.env.KAFKA_GROUP_ID || 'measures-service'
+  kafkaGroupId: process.env.KAFKA_GROUP_ID || 'measures-service',
+  mqttBrokerPort: process.env.MQTT_BROKER_PORT || 1883,
+  mqttPublisherClientId: process.env.MQTT_PUBLISHER_CLIENTID || 'mqttclient'
 }
