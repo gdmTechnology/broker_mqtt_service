@@ -1,3 +1,4 @@
 export const Topics = {
-    MEASURE: 'measure'
+    MEASURE: 'measure',
+    SEND_COMMAND: 'send-command'
 }
