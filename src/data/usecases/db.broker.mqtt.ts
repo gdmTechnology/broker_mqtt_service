@@ -9,7 +9,6 @@ export class DbMqttBroker implements MqttBroker {
             }
             return false
         } catch (error) {
-            console.log('MQTT Error: ', error)
             return false
         }
     }
