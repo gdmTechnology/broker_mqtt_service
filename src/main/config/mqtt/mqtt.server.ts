@@ -1,9 +1,9 @@
 import mqtt from 'mqtt'
-import { KafkaProducer } from '@/infra/kafka'
+// import { KafkaProducer } from '@/infra/kafka'
 import env from '@/main/config/env'
 
 let client = null
-let kafkaProducer = null
+// let kafkaProducer = null
 
 const options = {
     clientId: env.mqttPublisherClientId
@@ -25,10 +25,10 @@ export const MqttSetup = {
                 console.log(`Unable to connect: ${error}`)
             })
 
-            // client.on('message', function (topic: string, message) {
-            //     console.log('Topic:: ', topic)
-            //     console.log('Message:: ', message)
-            // })
+            client.on('message', function (topic: string, message) {
+                console.log('Topic:: ', topic)
+                console.log('Message:: ', message)
+            })
 
             return client
         }

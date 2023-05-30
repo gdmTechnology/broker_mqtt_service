@@ -24,13 +24,6 @@ const mockRequestSensorData = (): PublishData.Params => ({
     timestamp: 'timestamp'
 })
 
-const mockRequestActuatorData = (): PublishData.Params => ({
-    deviceIdentification: 'deviceIdentification',
-    actuatorIdentification: 'actuatorIdentification',
-    currentValue: 1,
-    timestamp: 'timestamp'
-})
-
 describe('DbPublishData', () => {
     test('Should call PublishData with correct values', async () => {
         const { sut, publishSpy } = makeSut()

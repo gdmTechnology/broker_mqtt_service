@@ -5,10 +5,6 @@ type SutTypes = {
     sut: MqttBroker
 }
 
-const throwError = (): never => {
-    throw new Error()
-}
-
 const makeSut = (): SutTypes => {
     const sut = new DbMqttBroker()
     return { sut }
@@ -38,6 +34,13 @@ describe('DbMqttBroker', () => {
         const { sut } = makeSut()
         const request = mockRequest()
         const resp = await sut.handle(request, false)
+        expect(resp).toBeFalsy()
+    })
+
+    test('Should return false if MqttClient throws', async () => {
+        const { sut } = makeSut()
+        const request = mockRequest()
+        const resp = await sut.handle(request, true)
         expect(resp).toBeFalsy()
     })
 })
