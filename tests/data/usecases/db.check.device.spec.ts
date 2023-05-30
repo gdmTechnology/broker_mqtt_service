@@ -8,10 +8,6 @@ type SutTypes = {
     sut: CheckDevice
 }
 
-const throwError = (): never => {
-    throw new Error()
-}
-
 const makeSut = (): SutTypes => {
     const checkSensorRepositorySpy = new CheckSensorRepositorySpy()
     const checkActuatorRepositorySpy = new CheckActuatorRepositorySpy()

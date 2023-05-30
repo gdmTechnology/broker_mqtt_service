@@ -79,10 +79,11 @@ describe('ReceiveDataFromDeviceController', () => {
     })
 
     test('Should return 400 if CheckDevice fail', async () => {
-        const { sut } = makeSut()
+        const { sut, checkDeviceSpy } = makeSut()
         const request = mockRequest()
+        checkDeviceSpy.result = null
         const httpResponse = await sut.handle(request)
-        expect(httpResponse.statusCode).toEqual(204)
+        expect(httpResponse.statusCode).toEqual(400)
     })
 
     test('Should return 500 if PublishData throws', async () => {

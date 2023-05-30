@@ -1,6 +1,5 @@
 import { SensorMongoRepository } from '@/infra/db/mongodb'
 import { MongoTestDbHelper } from './db.handler'
-import { CheckSensorRepository } from '@/data/protocols'
 
 const makeSut = (): SensorMongoRepository => {
     return new SensorMongoRepository()

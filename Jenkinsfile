@@ -9,25 +9,40 @@ pipeline {
 				'''
 			}
 		}
-		stage('Tests') {
+		stage('tests') {
 			steps {
 				script {
-				sh 'npm i'
-				sh 'npm run test'
+					sh 'npm run test:ci'
 				}
 			}
 			post {
 				always {
-				step([$class: 'CoberturaPublisher', coberturaReportFile: 'output/coverage/jest/clover.xml', lineCoverageTargets: '100, 95, 50'])
+					step([$class: 'CoberturaPublisher', coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml', lineCoverageTargets: '100, 95, 50'])
 				}
 			}
 		}
-		stage("killing old container") {
+
+		stage("stop container") {
 			steps {
-				sh 'sudo docker system prune --all'
+				sh 'docker stop broker_mqtt_service || true'
 			}
 		}
-		stage("build") {
+		stage("remove old image") {
+			steps {
+				sh 'docker rmi broker_mqtt-service || true'
+			}
+		}
+		stage("remove unused containers and images") {
+			steps {
+				sh 'docker system prune -af'
+			}
+		}
+		stage("build typescript") {
+			steps {
+				sh 'npm run build'
+			}
+		}
+		stage("build docker image") {
 			steps {
 				sh 'docker build -t broker_mqtt-service .'
 			}
@@ -48,7 +63,7 @@ pipeline {
 					-e MONGO_PASS=rem2023 \
 					-e MONGO_USER=rem \
 					--hostname broker_mqtt_service \
-                    --network middleware-network \
+                    --network rem_network \
 					--restart always \
 					--name broker_mqtt_service broker_mqtt_service
 				'''
