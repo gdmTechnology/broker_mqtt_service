@@ -9,6 +9,13 @@ pipeline {
 				'''
 			}
 		}
+		stage("install node_modules") {
+			steps {
+				script {
+					sh 'npm i'
+				}
+			}
+		}
 		stage('tests') {
 			steps {
 				script {
