@@ -72,7 +72,7 @@ pipeline {
 					--hostname broker_mqtt_service \
                     --network rem_network \
 					--restart always \
-					--name broker_mqtt_service broker_mqtt_service
+					--name broker_mqtt_service broker_mqtt-service
 				'''
 			}
 		}
